@@ -1,1 +1,1 @@
-# test-automation-course-repo
+# Test Automation Course Repository
