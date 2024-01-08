@@ -4,20 +4,14 @@ import java.util.Set;
 public class UniqueCharacterFinder {
 
     public static Set<Character> findUniqueCharacters(String[] texts) {
-        Set<String> words = new HashSet<>();
         Set<Character> uniqueCharacters = new HashSet<>();
-        int wordsFound = 0;
+        Set<Character> seenCharacters = new HashSet<>();
 
         for (String text : texts) {
-            for (String word : text.split("\\s+")) {
-                if (!words.add(word)) {
-                    // Eğer kelime daha önce eklendiyse ve ikinci kez bulunmuşsa:
-                    if (wordsFound < 2) {
-                        for (char c : word.toCharArray()) {
-                            uniqueCharacters.add(c);
-                        }
-                        wordsFound++;
-                    }
+            for (char c : text.toCharArray()) {
+                if (!seenCharacters.add(c)) {
+                    // If the character has been seen before, add it to the uniqueCharacters set.
+                    uniqueCharacters.add(c);
                 }
             }
         }
