@@ -10,7 +10,7 @@ public class UniqueCharacterFinder {
         for (String text : texts) {
             for (char c : text.toCharArray()) {
                 if (!seenCharacters.add(c)) {
-                    // If the character has been seen before, add it to the uniqueCharacters set.
+                    // Eğer kelime daha önce eklendiyse ve ikinci kez bulunmuşsa:
                     uniqueCharacters.add(c);
                 }
             }
@@ -19,9 +19,20 @@ public class UniqueCharacterFinder {
         return uniqueCharacters;
     }
 
+    public static String generateTextFromUniqueCharacters(Set<Character> uniqueCharacters) {
+        StringBuilder result = new StringBuilder();
+        
+        for (Character c : uniqueCharacters) {
+            result.append(c);
+        }
+
+        return result.toString();
+    }
+
     public static void main(String[] args) {
         String[] texts = {"hello", "world", "find", "world", "find", "good", "hello"};
-        Set<Character> result = findUniqueCharacters(texts);
-        System.out.println("Unique characters: " + result);
+        Set<Character> uniqueCharacters = findUniqueCharacters(texts);
+        String generatedText = generateTextFromUniqueCharacters(uniqueCharacters);
+        System.out.println("Generated text from unique characters: " + generatedText);
     }
 }
