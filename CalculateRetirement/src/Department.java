@@ -3,8 +3,8 @@ import java.util.List;
 
 public class Department {
     private Person teamLead;
-    private List<Person> personelList;
-    private List<String> assignmentList;
+    private final List<Person> personelList;
+    private final List<String> assignmentList;
 
     public Department(Person teamLead) {
         if (teamLead == null) {
@@ -22,11 +22,11 @@ public class Department {
         this.teamLead = newLead;
     }
 
-    public void addPersonel(Person person) {
+    public void addPersonnel(Person person) {
         personelList.add(person);
     }
 
-    public void removePersonel(Person person) {
+    public void removePersonnel(Person person) {
         personelList.remove(person);
     }
 

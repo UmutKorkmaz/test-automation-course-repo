@@ -21,7 +21,7 @@ public abstract class Person {
         this.surname = surname;
     }
 
-    public LocalDate getDogumTarihi() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 

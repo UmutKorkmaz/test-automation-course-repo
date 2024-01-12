@@ -10,8 +10,8 @@ public class Main {
 
         // Departman Oluşturma ve Personel Ekleme
         Department department = new Department(teamLead);
-        department.addPersonel(personel1);
-        department.addPersonel(personel2);
+        department.addPersonnel(personel1);
+        department.addPersonnel(personel2);
 
         // Görevler Ekleme
         department.addAssignment("Proje Raporu Hazırlama");
