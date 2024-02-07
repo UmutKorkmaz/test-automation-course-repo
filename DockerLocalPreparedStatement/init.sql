@@ -1,0 +1,8 @@
+CREATE DATABASE IF NOT EXISTS localdb;
+USE localdb;
+CREATE TABLE IF NOT EXISTS umut_korkmaz
+(
+    id   INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    age  INT
+);
