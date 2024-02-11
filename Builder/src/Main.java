@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
         // Kullanım örneği:
-        Car car = new Car.Builder()
+        Car car = Car.builder()
                 .make("Toyota")
                 .model("Corolla")
                 .year(2020)
@@ -11,7 +11,7 @@ public class Main {
         System.out.println(car);
 
         // Örnek 2:
-        Car car2 = new Car.Builder()
+        Car car2 = Car.builder()
                 .make("Volkswagen")
                 .model("Passat")
                 .year(2019)

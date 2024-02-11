@@ -5,12 +5,8 @@ public class Car {
     private String color;
     private int horsepower;
 
-    private Car(Builder builder) {
-        this.make = builder.make;
-        this.model = builder.model;
-        this.year = builder.year;
-        this.color = builder.color;
-        this.horsepower = builder.horsepower;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public static class Builder {
@@ -46,7 +42,13 @@ public class Car {
         }
 
         public Car build() {
-            return new Car(this);
+            Car car = new Car();
+            car.make = this.make;
+            car.model = this.model;
+            car.color = this.color;
+            car.year = this.year;
+            car.horsepower = this.horsepower;
+            return car;
         }
     }
 
