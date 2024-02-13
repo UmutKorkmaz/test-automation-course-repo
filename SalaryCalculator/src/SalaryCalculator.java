@@ -1,3 +1,5 @@
+
+
 public class SalaryCalculator {
 
     // Sabit günlük maaş miktarı, örneğin 200 TL
@@ -14,7 +16,7 @@ public class SalaryCalculator {
      * @return Toplam maaş miktarı.
      */
     public static int calculateSalary(int workingDays) {
-        int salary = workingDays"" * DAILY_WAGE;
+        int salary = workingDays * DAILY_WAGE;
         int extraDays = workingDays - MIN_DAYS_FOR_BONUS;
 
         if (extraDays > 0) {
