@@ -1,16 +1,26 @@
 package test;
 
+import org.testng.Assert;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
 public class SalaryCalculatorTest {
 
-    @ParameterizedTest
-    @ValueSource(ints = {20, 25, 30}) // Farklı çalışma günleri
+    @DataProvider(name = "workingDaysProvider")
+    public Object[][] createWorkingDays() {
+        return new Object[][] {{20}, {25}, {30}};
+    }
+
+    @Test(dataProvider = "workingDaysProvider")
     public void testCalculateSalaryWithDifferentInputs(int workingDays) {
         int expectedSalary;
-        if (workingDays <= 25) {
-            expectedSalary = workingDays * 200;
+        if (workingDays <= SalaryCalculator.MIN_DAYS_FOR_BONUS) {
+            expectedSalary = workingDays * SalaryCalculator.DAILY_WAGE;
         } else {
-            expectedSalary = (25 * 200) + ((workingDays - 25) * (200 + 1000));
+            expectedSalary = (SalaryCalculator.MIN_DAYS_FOR_BONUS * SalaryCalculator.DAILY_WAGE) +
+                    ((workingDays - SalaryCalculator.MIN_DAYS_FOR_BONUS) *
+                            (SalaryCalculator.DAILY_WAGE + SalaryCalculator.BONUS_PER_EXTRA_DAY));
         }
-        assertEquals(expectedSalary, SalaryCalculator.calculateSalary(workingDays));
+        Assert.assertEquals(SalaryCalculator.calculateSalary(workingDays), expectedSalary);
     }
 }
