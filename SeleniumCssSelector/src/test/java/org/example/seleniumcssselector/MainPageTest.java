@@ -1,70 +1,96 @@
 package org.example.seleniumcssselector;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import java.time.Duration;
 
 public class MainPageTest {
 
+    private WebDriver driver;
+    private WebDriverWait wait;
+
     @BeforeAll
-    public static void setUpAll() {
-        Configuration.browserSize = "1280x800";
-        Configuration.baseUrl = "https://demoqa.com";
-        SelenideLogger.addListener("allure", new AllureSelenide());
+    public static void setupClass() {
+        System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
     }
 
     @BeforeEach
-    public void setUp() {
-        Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
+    public void setupTest() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Test
-    public void clickThirdButton() {
-        open("/buttons");
-        sleep(2000);
-        $$("button").get(3).click();
-        $("#dynamicClickMessage").shouldHave(text("You have done a dynamic click"));
+    public void clickThirdButtonUsingCSS() {
+        driver.get("https://demoqa.com/buttons");
+        WebElement thirdButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button#3")));
+        thirdButton.click();
+        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#dynamicClickMessage")));
+        Assertions.assertTrue(message.getText().contains("You have done a dynamic click"));
     }
 
     @Test
-    public void addAndEditLastWebTableRecord() {
-        open("/webtables");
-        $(By.cssSelector("#addNewRecordButton")).click(); // Click on the "Add" button
+    public void addAndEditLastWebTableRecordUsingCSS() {
+        driver.get("https://demoqa.com/webtables");
+        // Click the "Add" button
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#addNewRecordButton"))).click();
 
-        // Fill in the form to add a new record
-        $(By.cssSelector("#firstName")).setValue("Umut");
-        $(By.cssSelector("#lastName")).setValue("Korkmaz");
-        $(By.cssSelector("#userEmail")).setValue("umutkorkmaz@outlook.com.tr");
-        $(By.cssSelector("#age")).setValue("30");
-        $(By.cssSelector("#salary")).setValue("5000");
-        $(By.cssSelector("#department")).setValue("IT");
-        $(By.cssSelector("#submit")).click(); // Submit the new record
+        // Fill the form
+        driver.findElement(By.cssSelector("#firstName")).sendKeys("Umut");
+        driver.findElement(By.cssSelector("#lastName")).sendKeys("Korkmaz");
+        driver.findElement(By.cssSelector("#userEmail")).sendKeys("umutkorkmaz@outlook.com.tr");
+        driver.findElement(By.cssSelector("#age")).sendKeys("30");
+        driver.findElement(By.cssSelector("#salary")).sendKeys("5000");
+        driver.findElement(By.cssSelector("#department")).sendKeys("IT");
+        driver.findElement(By.cssSelector("#submit")).click();
 
-        // Assume the record is added; now click on the edit button of the last record
-        // Using ":last-child" to select the last edit button in the table
-        $$(By.cssSelector(".action-buttons span[title='Edit']")).last().click();
+        // Edit the last added record
+        WebElement lastEditButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".rt-tr-group:last-child .rt-tr -odd .rt-td:last-child .action-buttons span[title='Edit']")));
+        lastEditButton.click();
 
-        // Now editing the last added record
-        // Clearing and setting new values in the fields
-        $(By.cssSelector("#firstName")).clear();
-        $(By.cssSelector("#firstName")).setValue("Umut");
-        $(By.cssSelector("#lastName")).clear();
-        $(By.cssSelector("#lastName")).setValue("Korkmaz");
-        $(By.cssSelector("#userEmail")).clear();
-        $(By.cssSelector("#userEmail")).setValue("umutkorkmaz@outlook.com.tr");
-        $(By.cssSelector("#age")).clear();
-        $(By.cssSelector("#age")).setValue("35");
-        $(By.cssSelector("#salary")).clear();
-        $(By.cssSelector("#salary")).setValue("6000");
-        $(By.cssSelector("#department")).clear();
-        $(By.cssSelector("#department")).setValue("HR");
-        $(By.cssSelector("#submit")).click(); // Submit the edited record
+        // Update the form fields
+        WebElement editedFirstName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#firstName")));
+        editedFirstName.clear();
+        editedFirstName.sendKeys("Jane");
+
+        WebElement editedLastName = driver.findElement(By.cssSelector("#lastName"));
+        editedLastName.clear();
+        editedLastName.sendKeys("Doe");
+
+        WebElement editedEmail = driver.findElement(By.cssSelector("#userEmail"));
+        editedEmail.clear();
+        editedEmail.sendKeys("janedoe@example.com");
+
+        WebElement editedAge = driver.findElement(By.cssSelector("#age"));
+        editedAge.clear();
+        editedAge.sendKeys("40");
+
+        WebElement editedSalary = driver.findElement(By.cssSelector("#salary"));
+        editedSalary.clear();
+        editedSalary.sendKeys("7000");
+
+        WebElement editedDepartment = driver.findElement(By.cssSelector("#department"));
+        editedDepartment.clear();
+        editedDepartment.sendKeys("HR");
+
+        driver.findElement(By.cssSelector("#submit")).click();
     }
 
+    @AfterEach
+    public void teardown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 }

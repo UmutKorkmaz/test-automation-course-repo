@@ -1,78 +1,100 @@
 package org.example.seleniumxpathselector;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
+import java.time.Duration;
 
 public class MainPageTest {
 
+    private WebDriver driver;
+    private WebDriverWait wait;
+
     @BeforeAll
-    public static void setUpAll() {
-        Configuration.browserSize = "1280x800";
-        Configuration.baseUrl = "https://demoqa.com";
-        SelenideLogger.addListener("allure", new AllureSelenide());
+    public static void setupClass() {
+        System.setProperty("webdriver.chrome.driver", "/opt/homebrew/bin/chromedriver");
     }
 
     @BeforeEach
-    public void setUp() {
-        Configuration.browserCapabilities = new ChromeOptions().addArguments("--remote-allow-origins=*");
+    public void setupTest() {
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     @Test
-    public void clickThirdButton() {
-        open("/buttons");
-        sleep(2000);
-        $x("(//button)[4]").click();
-        $("#dynamicClickMessage").shouldHave(text("You have done a dynamic click"));
+    public void clickThirdButtonUsingXPath() {
+        driver.get("https://demoqa.com/buttons");
+        WebElement thirdButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//button)[4]")));
+        thirdButton.click();
+        WebElement message = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("dynamicClickMessage")));
+        Assertions.assertTrue(message.getText().contains("You have done a dynamic click"));
     }
 
-    // The addAndEditLastWebTableRecord method remains unchanged as the focus is on converting only the clickThirdButton method.
     @Test
-    public void addAndEditLastWebTableRecord() {
-        open("/webtables");
+    public void addAndEditLastWebTableRecordUsingXPath() {
+        driver.get("https://demoqa.com/webtables");
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='addNewRecordButton']"))).click();
 
-        // Click on the "Add" button using XPath
-        $(By.xpath("//button[@id='addNewRecordButton']")).click();
+        driver.findElement(By.xpath("//input[@id='firstName']"))
+                .sendKeys("Umut");
+        driver.findElement(By.xpath("//input[@id='lastName']"))
+                .sendKeys("Korkmaz");
+        driver.findElement(By.xpath("//input[@id='userEmail']"))
+                .sendKeys("umutkorkmaz@outlook.com.tr");
+        driver.findElement(By.xpath("//input[@id='age']"))
+                .sendKeys("30");
+        driver.findElement(By.xpath("//input[@id='salary']"))
+                .sendKeys("5000");
+        driver.findElement(By.xpath("//input[@id='department']"))
+                .sendKeys("IT");
+        driver.findElement(By.xpath("//button[@id='submit']"))
+                .click();
 
-        // Fill in the form to add a new record using XPath
-        $(By.xpath("//input[@id='firstName']")).setValue("Umut");
-        $(By.xpath("//input[@id='lastName']")).setValue("Korkmaz");
-        $(By.xpath("//input[@id='userEmail']")).setValue("umutkorkmaz@outlook.com.tr");
-        $(By.xpath("//input[@id='age']")).setValue("30");
-        $(By.xpath("//input[@id='salary']")).setValue("5000");
-        $(By.xpath("//input[@id='department']")).setValue("IT");
+        WebElement lastEditButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[@title='Edit'])[last()]")));
+        lastEditButton.click();
 
-        // Submit the new record using XPath
-        $(By.xpath("//button[@id='submit']")).click();
+        WebElement editedFirstName = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@id='firstName']")));
+        editedFirstName.clear();
+        editedFirstName.sendKeys("Jane");
 
-        // Wait until the edit buttons are visible and click the edit button of the last record using XPath
-        // Assuming edit buttons have a common class attribute and finding the last one
-        var editButtons = $$x("//span[@title='Edit']");
-        editButtons.last().click();
+        WebElement editedLastName = driver.findElement(By.xpath("//input[@id='lastName']"));
+        editedLastName.clear();
+        editedLastName.sendKeys("Doe");
 
-        // Now editing the last added record using XPath
-        // Clearing existing values and setting new values in the fields
-        $(By.xpath("//input[@id='firstName']")).clear();
-        $(By.xpath("//input[@id='firstName']")).setValue("Umut");
-        $(By.xpath("//input[@id='lastName']")).clear();
-        $(By.xpath("//input[@id='lastName']")).setValue("Korkmaz");
-        $(By.xpath("//input[@id='userEmail']")).clear();
-        $(By.xpath("//input[@id='userEmail']")).setValue("umutkorkmaz@outlook.com.tr");
-        $(By.xpath("//input[@id='age']")).clear();
-        $(By.xpath("//input[@id='age']")).setValue("35");
-        $(By.xpath("//input[@id='salary']")).clear();
-        $(By.xpath("//input[@id='salary']")).setValue("6000");
-        $(By.xpath("//input[@id='department']")).clear();
-        $(By.xpath("//input[@id='department']")).setValue("HR");
+        WebElement editedEmail = driver.findElement(By.xpath("//input[@id='userEmail']"));
+        editedEmail.clear();
+        editedEmail.sendKeys("janedoe@example.com");
 
-        // Submit the edited record using XPath
-        $(By.xpath("//button[@id='submit']")).click();
+        WebElement editedAge = driver.findElement(By.xpath("//input[@id='age']"));
+        editedAge.clear();
+        editedAge.sendKeys("40");
+
+        WebElement editedSalary = driver.findElement(By.xpath("//input[@id='salary']"));
+        editedSalary.clear();
+        editedSalary.sendKeys("7000");
+
+        WebElement editedDepartment = driver.findElement(By.xpath("//input[@id='department']"));
+        editedDepartment.clear();
+        editedDepartment.sendKeys("HR");
+
+        driver.findElement(By.xpath("//button[@id='submit']"))
+                .click();
     }
 
+    @AfterEach
+    public void teardown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
 }
