@@ -1,0 +1,1 @@
+{"total":2,"items":[{"uid":"9ddf7539be8191b98c5d17270056daa8","name":"org.example.seleniumselenide.MainPageTest","statistic":{"failed":2,"broken":0,"skipped":0,"passed":0,"unknown":0,"total":2}},{"uid":"abd0f1c4b644ea37100548f3753a8a6e","name":"org.example.seleniumcssselector.MainPageTest","statistic":{"failed":1,"broken":0,"skipped":0,"passed":1,"unknown":0,"total":2}}]}

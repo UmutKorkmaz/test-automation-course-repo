@@ -1,19 +1,23 @@
 package org.example.seleniumcssselector;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.ByteArrayInputStream;
 import java.time.Duration;
 
+@Epic("Selenium CSS Selector Testi")
+@Feature("Selenium CSS Selector Testi")
 public class MainPageTest {
 
     private WebDriver driver;
@@ -90,6 +94,10 @@ public class MainPageTest {
     @AfterEach
     public void teardown() {
         if (driver != null) {
+            // Take a screenshot at the end of each test
+            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+            Allure.addAttachment("Final Screenshot", "image/png", new ByteArrayInputStream(screenshot), ".png");
+
             driver.quit();
         }
     }

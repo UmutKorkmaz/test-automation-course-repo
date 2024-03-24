@@ -1,13 +1,12 @@
 package org.example.seleniumxpathselector;
 
+import io.qameta.allure.Allure;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -94,7 +93,12 @@ public class MainPageTest {
     @AfterEach
     public void teardown() {
         if (driver != null) {
+            Allure.getLifecycle().addAttachment(
+                    "Screenshot on failure", "image/png", "png",
+                    ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES)
+            );
             driver.quit();
         }
+
     }
 }

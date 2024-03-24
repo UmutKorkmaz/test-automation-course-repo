@@ -1,3 +1,7 @@
+import io.qameta.allure.Description;
+import io.qameta.allure.Epic;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Story;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.BeforeAll;
@@ -6,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
+@Epic("Kullanıcı Yönetimi")
+@Feature("Kullanıcı Oluşturma")
 public class CreateUserTest {
 
     @BeforeAll
@@ -14,6 +20,8 @@ public class CreateUserTest {
     }
 
     @Test
+    @Story("Geçerli kullanıcı bilgileri ile yeni bir kullanıcı oluşturma")
+    @Description("Bu test, geçerli kullanıcı bilgileri kullanarak yeni bir kullanıcı oluşturur ve oluşturulan kullanıcının detaylarını doğrular.")
     public void testCreateUser() {
         String requestBody = "{\n" +
                 "  \"userName\": \"testUser_" + System.currentTimeMillis() + "\",\n" + // Benzersiz bir kullanıcı adı sağlamak için

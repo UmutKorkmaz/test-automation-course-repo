@@ -19,7 +19,7 @@ public class MainPageTest {
     public static void setUpAll() {
         Configuration.browserSize = "1280x800";
         Configuration.baseUrl = "https://demoqa.com";
-        SelenideLogger.addListener("allure", new AllureSelenide());
+        SelenideLogger.addListener("allure", new AllureSelenide().screenshots(true).savePageSource(true));
     }
 
     @BeforeEach

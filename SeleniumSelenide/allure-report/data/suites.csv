@@ -1,0 +1,5 @@
+"Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
+"failed","Sun Mar 24 20:47:34 TRT 2024","Sun Mar 24 20:47:43 TRT 2024","9329","","org.example.seleniumselenide.MainPageTest","","org.example.seleniumselenide.MainPageTest","addAndEditLastWebTableRecord","addAndEditLastWebTableRecord()",""
+"failed","Sun Mar 24 20:47:16 TRT 2024","Sun Mar 24 20:47:33 TRT 2024","17758","","org.example.seleniumselenide.MainPageTest","","org.example.seleniumselenide.MainPageTest","clickThirdButton","clickThirdButton()",""
+"failed","Sun Mar 24 20:47:43 TRT 2024","Sun Mar 24 20:47:52 TRT 2024","8486","","org.example.seleniumcssselector.MainPageTest","","org.example.seleniumcssselector.MainPageTest","addAndEditLastWebTableRecord","addAndEditLastWebTableRecord()",""
+"passed","Sun Mar 24 20:47:43 TRT 2024","Sun Mar 24 20:47:43 TRT 2024","542","","org.example.seleniumcssselector.MainPageTest","","org.example.seleniumcssselector.MainPageTest","clickThirdButton","clickThirdButton()",""
