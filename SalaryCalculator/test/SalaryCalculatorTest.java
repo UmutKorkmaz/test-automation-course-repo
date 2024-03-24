@@ -20,13 +20,18 @@ public class SalaryCalculatorTest {
         }
     }
 
-    @Test
-    public void testCalculateSalaryFromProperties() {
-        // Retrieve the number of working days and the expected salary from the properties file
-        int workingDays = Integer.parseInt(testProperties.getProperty("workingDays"));
-        int expectedSalary = Integer.parseInt(testProperties.getProperty("expectedSalary"));
+    @DataProvider(name = "salaryDataProvider")
+    public Object[][] salaryDataProvider() {
+        return new Object[][]{
+                {Integer.parseInt(testProperties.getProperty("workingDays1")), Integer.parseInt(testProperties.getProperty("expectedSalary1"))},
+                {Integer.parseInt(testProperties.getProperty("workingDays2")), Integer.parseInt(testProperties.getProperty("expectedSalary2"))},
+                {Integer.parseInt(testProperties.getProperty("workingDays3")), Integer.parseInt(testProperties.getProperty("expectedSalary3"))}
+        };
+    }
 
-        // Assert that the calculated salary is equal to the expected salary
-        Assert.assertEquals(SalaryCalculator.calculateSalary(workingDays), expectedSalary);
+    @Test(dataProvider = "salaryDataProvider")
+    public void testCalculateSalaryFromProperties(int workingDays, int expectedSalary) {
+        Assert.assertEquals(SalaryCalculator.calculateSalary(workingDays), expectedSalary,
+                "Failed calculating salary for " + workingDays + " working days.");
     }
 }
